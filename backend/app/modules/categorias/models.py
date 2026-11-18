@@ -1,5 +1,10 @@
+from typing import TYPE_CHECKING
+
 from sqlalchemy import Index, func, text
-from sqlmodel import Field, SQLModel
+from sqlmodel import Field, Relationship, SQLModel
+
+if TYPE_CHECKING:
+    from app.modules.productos.models import Producto
 
 
 class Categoria(SQLModel, table=True):
@@ -11,3 +16,5 @@ class Categoria(SQLModel, table=True):
     nombre: str = Field(max_length=100)
     descripcion: str | None = None
     activo: bool = Field(default=True)
+
+    productos: list["Producto"] = Relationship(back_populates="categoria")
