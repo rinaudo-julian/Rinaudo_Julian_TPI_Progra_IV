@@ -48,26 +48,26 @@ def listar_productos(
 def obtener_producto(id: int, service: ProductoServiceDep):
     try:
         return service.obtener(id)
-    except ProductoNoEncontrado:
-        raise _producto_no_encontrado()
+    except ProductoNoEncontrado as error:
+        raise _producto_no_encontrado() from error
 
 
 @router.post("", response_model=ProductoRead, status_code=status.HTTP_201_CREATED)
 def crear_producto(data: ProductoCreate, service: ProductoServiceDep):
     try:
         return service.crear(data)
-    except CategoriaNoEncontrada:
-        raise _categoria_no_encontrada()
+    except CategoriaNoEncontrada as error:
+        raise _categoria_no_encontrada() from error
 
 
 @router.put("/{id}", response_model=ProductoRead)
 def actualizar_producto(id: int, data: ProductoUpdate, service: ProductoServiceDep):
     try:
         return service.actualizar(id, data)
-    except ProductoNoEncontrado:
-        raise _producto_no_encontrado()
-    except CategoriaNoEncontrada:
-        raise _categoria_no_encontrada()
+    except ProductoNoEncontrado as error:
+        raise _producto_no_encontrado() from error
+    except CategoriaNoEncontrada as error:
+        raise _categoria_no_encontrada() from error
 
 
 @router.patch("/{id}/stock", response_model=ProductoRead)
@@ -76,13 +76,13 @@ def actualizar_stock_producto(
 ):
     try:
         return service.actualizar_stock(id, data)
-    except ProductoNoEncontrado:
-        raise _producto_no_encontrado()
+    except ProductoNoEncontrado as error:
+        raise _producto_no_encontrado() from error
 
 
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def eliminar_producto(id: int, service: ProductoServiceDep) -> None:
     try:
         service.eliminar(id)
-    except ProductoNoEncontrado:
-        raise _producto_no_encontrado()
+    except ProductoNoEncontrado as error:
+        raise _producto_no_encontrado() from error

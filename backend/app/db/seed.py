@@ -1,8 +1,15 @@
 from app.core.database import create_all_tables, session_factory
-from app.modules.categorias.models import Categoria
+from app.core.security import hash_password
+from app.db.models import Categoria, Producto, Usuario
 from app.modules.categorias.unit_of_work import CategoriaUnitOfWork
-from app.modules.productos.models import Producto
 from app.modules.productos.unit_of_work import ProductoUnitOfWork
+from app.modules.usuarios.models import ROL_ADMIN, ROL_USER
+from app.modules.usuarios.unit_of_work import UsuarioUnitOfWork
+
+USUARIOS: list[tuple[str, str, str, str, str]] = [
+    ("admin", "Administrador", "admin@foodstore.com", "Admin1234!", ROL_ADMIN),
+    ("cliente", "Cliente de Prueba", "cliente@foodstore.com", "Cliente1234!", ROL_USER),
+]
 
 CATEGORIAS: list[tuple[str, str]] = [
     ("Pizzas", "Pizzas a la piedra y al molde"),
@@ -20,6 +27,24 @@ PRODUCTOS: list[tuple[str, str, str, float, int]] = [
     ("Bebidas", "Gaseosa 500 ml", "Cola, lima limón o naranja", 2500.0, 50),
     ("Bebidas", "Agua mineral 500 ml", "Con o sin gas", 1800.0, 40),
 ]
+
+
+def seed_usuarios() -> int:
+    creados = 0
+    with UsuarioUnitOfWork(session_factory) as uow:
+        for username, full_name, email, password, role in USUARIOS:
+            if uow.usuarios.get_by_username(username) is None:
+                uow.usuarios.add(
+                    Usuario(
+                        username=username,
+                        full_name=full_name,
+                        email=email,
+                        hashed_password=hash_password(password),
+                        role=role,
+                    )
+                )
+                creados += 1
+    return creados
 
 
 def seed_categorias() -> int:
@@ -55,10 +80,11 @@ def seed_productos() -> int:
 
 def main() -> None:
     create_all_tables()
+    usuarios_creados = seed_usuarios()
     categorias_creadas = seed_categorias()
     productos_creados = seed_productos()
     print(
-        f"Seed: {categorias_creadas} categoría(s) y "
+        f"Seed: {usuarios_creados} usuario(s), {categorias_creadas} categoría(s) y "
         f"{productos_creados} producto(s) creados."
     )
 

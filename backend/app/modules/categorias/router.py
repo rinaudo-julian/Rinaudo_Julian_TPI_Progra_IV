@@ -44,31 +44,31 @@ def listar_categorias(service: CategoriaServiceDep):
 def obtener_categoria(id: int, service: CategoriaServiceDep):
     try:
         return service.obtener(id)
-    except CategoriaNoEncontrada:
-        raise _no_encontrada()
+    except CategoriaNoEncontrada as error:
+        raise _no_encontrada() from error
 
 
 @router.post("", response_model=CategoriaRead, status_code=status.HTTP_201_CREATED)
 def crear_categoria(data: CategoriaCreate, service: CategoriaServiceDep):
     try:
         return service.crear(data)
-    except NombreDuplicado:
-        raise _duplicada()
+    except NombreDuplicado as error:
+        raise _duplicada() from error
 
 
 @router.put("/{id}", response_model=CategoriaRead)
 def actualizar_categoria(id: int, data: CategoriaUpdate, service: CategoriaServiceDep):
     try:
         return service.actualizar(id, data)
-    except CategoriaNoEncontrada:
-        raise _no_encontrada()
-    except NombreDuplicado:
-        raise _duplicada()
+    except CategoriaNoEncontrada as error:
+        raise _no_encontrada() from error
+    except NombreDuplicado as error:
+        raise _duplicada() from error
 
 
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def eliminar_categoria(id: int, service: CategoriaServiceDep) -> None:
     try:
         service.eliminar(id)
-    except CategoriaNoEncontrada:
-        raise _no_encontrada()
+    except CategoriaNoEncontrada as error:
+        raise _no_encontrada() from error
