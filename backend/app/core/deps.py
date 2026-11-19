@@ -1,32 +1,64 @@
 from collections.abc import Callable
 from typing import Annotated
 
-from fastapi import Depends, Header, HTTPException, status
+from fastapi import Depends, HTTPException, Request, status
+from fastapi.security import OAuth2PasswordBearer
 
 from app.core.database import session_factory
+from app.core.security import decode_access_token
 from app.modules.usuarios.schemas import UserPublic
 from app.modules.usuarios.unit_of_work import UsuarioUnitOfWork
 
+NOMBRE_COOKIE_TOKEN = "access_token"
 
-# TEMPORAL: identifica al usuario con el header X-Usuario-Id hasta implementar auth.
-# Reemplazar por get_current_active_user (cookie HttpOnly con JWT).
-def get_usuario_actual(
-    x_usuario_id: Annotated[int | None, Header()] = None,
-) -> UserPublic:
-    if x_usuario_id is None:
-        raise HTTPException(status.HTTP_401_UNAUTHORIZED, detail="No autenticado")
+
+class OAuth2PasswordBearerWithCookie(OAuth2PasswordBearer):
+    async def __call__(self, request: Request) -> str | None:
+        token = request.cookies.get(NOMBRE_COOKIE_TOKEN)
+        if not token:
+            if self.auto_error:
+                raise HTTPException(
+                    status.HTTP_401_UNAUTHORIZED,
+                    detail="No autenticado",
+                    headers={"WWW-Authenticate": "Bearer"},
+                )
+            return None
+        return token
+
+
+oauth2_scheme = OAuth2PasswordBearerWithCookie(tokenUrl="/api/v1/auth/token")
+
+
+def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]) -> UserPublic:
+    error_credenciales = HTTPException(
+        status.HTTP_401_UNAUTHORIZED,
+        detail="Credenciales inválidas o token expirado",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    payload = decode_access_token(token)
+    if payload is None:
+        raise error_credenciales
+    username = payload.get("sub")
+    if username is None:
+        raise error_credenciales
     with UsuarioUnitOfWork(session_factory) as uow:
-        usuario = uow.usuarios.get_by_id(x_usuario_id)
+        usuario = uow.usuarios.get_by_username(username)
         if usuario is None:
-            raise HTTPException(status.HTTP_401_UNAUTHORIZED, detail="No autenticado")
-        if usuario.disabled:
-            raise HTTPException(
-                status.HTTP_400_BAD_REQUEST, detail="Cuenta de usuario desactivada"
-            )
+            raise error_credenciales
         return UserPublic.model_validate(usuario)
 
 
-UsuarioActualDep = Annotated[UserPublic, Depends(get_usuario_actual)]
+def get_current_active_user(
+    usuario: Annotated[UserPublic, Depends(get_current_user)],
+) -> UserPublic:
+    if usuario.disabled:
+        raise HTTPException(
+            status.HTTP_400_BAD_REQUEST, detail="Cuenta de usuario desactivada"
+        )
+    return usuario
+
+
+UsuarioActualDep = Annotated[UserPublic, Depends(get_current_active_user)]
 
 
 def require_role(roles_permitidos: list[str]) -> Callable[[UserPublic], UserPublic]:
