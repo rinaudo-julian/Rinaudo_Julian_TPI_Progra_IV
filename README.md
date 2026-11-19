@@ -30,10 +30,16 @@ Todos los comandos se ejecutan desde la carpeta `backend/`.
    pip install -r requirements.txt
    ```
 
-2. Crear el archivo de variables de entorno a partir del ejemplo y completar los datos de conexión:
+2. Crear el archivo de variables de entorno a partir del ejemplo:
 
    ```bash
    cp .env.example .env
+   ```
+
+   En `.env`, completar `DATABASE_URL` con los datos de conexión y reemplazar `SECRET_KEY` por una clave propia de al menos 32 caracteres. Se puede generar con:
+
+   ```bash
+   python -c "import secrets; print(secrets.token_urlsafe(48))"
    ```
 
 3. Crear la base de datos en PostgreSQL:
@@ -42,7 +48,7 @@ Todos los comandos se ejecutan desde la carpeta `backend/`.
    createdb foodstore_db
    ```
 
-4. Cargar los datos iniciales (crea las tablas y las categorías; se puede ejecutar varias veces sin duplicar datos):
+4. Cargar los datos iniciales (crea las tablas, los usuarios, las categorías y los productos; se puede ejecutar varias veces sin duplicar datos):
 
    ```bash
    python -m app.db.seed
@@ -74,7 +80,15 @@ La API queda disponible en http://localhost:8000/api/v1 y la documentación inte
 
 ### Datos iniciales (seed)
 
-`python -m app.db.seed` carga las categorías **Pizzas**, **Hamburguesas** y **Bebidas**. Si ya existen, no las vuelve a crear.
+`python -m app.db.seed` carga los siguientes datos. Si ya existen, no los vuelve a crear.
+
+| Usuario | Contraseña | Rol |
+|---|---|---|
+| `admin` | `Admin1234!` | `admin` |
+| `cliente` | `Cliente1234!` | `user` |
+
+- Categorías: **Pizzas**, **Hamburguesas** y **Bebidas**.
+- Productos: 8 productos con stock, repartidos entre esas categorías.
 
 ## Frontend
 
