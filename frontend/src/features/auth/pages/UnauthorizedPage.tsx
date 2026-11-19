@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 
-function UnauthorizedPage() {
+const UnauthorizedPage = () => {
   return (
     <div className="flex min-h-[50vh] flex-col items-center justify-center gap-4">
       <h1 className="text-2xl font-bold text-gray-800">Sin permiso</h1>

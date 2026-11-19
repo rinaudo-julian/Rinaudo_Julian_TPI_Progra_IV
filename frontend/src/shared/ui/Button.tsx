@@ -13,14 +13,14 @@ const ESTILOS_POR_VARIANTE: Record<Variante, string> = {
   peligro: 'bg-red-600 text-white hover:bg-red-700',
 }
 
-function Button({
+const Button = ({
   variante = 'primario',
   cargando = false,
   disabled,
   className = '',
   children,
   ...props
-}: ButtonProps) {
+}: ButtonProps) => {
   return (
     <button
       disabled={disabled || cargando}

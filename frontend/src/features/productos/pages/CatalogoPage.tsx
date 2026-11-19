@@ -12,7 +12,7 @@ import { useProductos } from '../hooks/useProductos'
 
 const PRODUCTOS_POR_PAGINA = 6
 
-function CatalogoPage() {
+const CatalogoPage = () => {
   const [pagina, setPagina] = useState(0)
   const [textoBusqueda, setTextoBusqueda] = useState('')
   const [busqueda, setBusqueda] = useState('')

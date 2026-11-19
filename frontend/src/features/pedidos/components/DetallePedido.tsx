@@ -12,7 +12,7 @@ interface DetallePedidoProps {
   pedido: Pedido
 }
 
-function DetallePedido({ pedido }: DetallePedidoProps) {
+const DetallePedido = ({ pedido }: DetallePedidoProps) => {
   return (
     <div className="flex flex-col gap-4 text-sm text-gray-700">
       <dl className="grid grid-cols-2 gap-2">

@@ -6,7 +6,7 @@ interface PaginacionProps {
   onCambiarPagina: (pagina: number) => void
 }
 
-function Paginacion({ pagina, totalPaginas, onCambiarPagina }: PaginacionProps) {
+const Paginacion = ({ pagina, totalPaginas, onCambiarPagina }: PaginacionProps) => {
   if (totalPaginas <= 1) return null
 
   return (

@@ -7,7 +7,7 @@ interface ProtectedRouteProps {
   rolesPermitidos?: Rol[]
 }
 
-function ProtectedRoute({ rolesPermitidos }: ProtectedRouteProps) {
+const ProtectedRoute = ({ rolesPermitidos }: ProtectedRouteProps) => {
   const usuario = useAuthStore((estado) => estado.usuario)
   const cargando = useAuthStore((estado) => estado.cargando)
   const location = useLocation()

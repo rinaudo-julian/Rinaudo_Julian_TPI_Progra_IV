@@ -6,7 +6,7 @@ import Card from '../../../shared/ui/Card'
 import { formatearPrecio } from '../../../shared/utils/formatearPrecio'
 import { useCartStore } from '../../../store/cartStore'
 
-function CarritoPage() {
+const CarritoPage = () => {
   const items = useCartStore((estado) => estado.items)
   const quitar = useCartStore((estado) => estado.quitar)
   const cambiarCantidad = useCartStore((estado) => estado.cambiarCantidad)

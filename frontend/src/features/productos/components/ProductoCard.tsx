@@ -8,7 +8,7 @@ interface ProductoCardProps {
   producto: Producto
 }
 
-function ProductoCard({ producto }: ProductoCardProps) {
+const ProductoCard = ({ producto }: ProductoCardProps) => {
   const agregar = useCartStore((estado) => estado.agregar)
   const cantidadEnCarrito = useCartStore(
     (estado) =>

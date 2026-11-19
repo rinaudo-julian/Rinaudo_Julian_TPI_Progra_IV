@@ -9,7 +9,7 @@ function claseDeEnlace({ isActive }: { isActive: boolean }): string {
   return `text-sm font-medium ${isActive ? 'text-orange-600' : 'text-gray-600 hover:text-orange-600'}`
 }
 
-function Navbar() {
+const Navbar = () => {
   const usuario = useAuthStore((estado) => estado.usuario)
   const logout = useAuthStore((estado) => estado.logout)
   const cantidadEnCarrito = useCartStore((estado) =>

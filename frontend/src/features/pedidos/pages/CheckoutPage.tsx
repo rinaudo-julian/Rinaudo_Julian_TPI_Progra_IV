@@ -37,7 +37,7 @@ function validarDireccion(direccion: string): string | undefined {
   return undefined
 }
 
-function CheckoutPage() {
+const CheckoutPage = () => {
   const items = useCartStore((estado) => estado.items)
   const total = useCartStore((estado) => estado.total())
   const vaciar = useCartStore((estado) => estado.vaciar)

@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import AppRouter from './routes/AppRouter'
 import { useAuthStore } from './store/authStore'
 
-function App() {
+const App = () => {
   const checkSession = useAuthStore((estado) => estado.checkSession)
 
   useEffect(() => {

@@ -19,7 +19,7 @@ import { ESTADOS_PEDIDO } from '../types/pedido'
 
 const PEDIDOS_POR_PAGINA = 10
 
-function MisPedidosPage() {
+const MisPedidosPage = () => {
   const [pagina, setPagina] = useState(0)
   const [pedidoSeleccionadoId, setPedidoSeleccionadoId] = useState<number | null>(null)
   const [confirmandoCancelacion, setConfirmandoCancelacion] = useState(false)

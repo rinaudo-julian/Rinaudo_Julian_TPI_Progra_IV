@@ -7,7 +7,7 @@ interface ModalProps {
   children: ReactNode
 }
 
-function Modal({ titulo, abierto, onCerrar, children }: ModalProps) {
+const Modal = ({ titulo, abierto, onCerrar, children }: ModalProps) => {
   useEffect(() => {
     if (!abierto) return
     const cerrarConEscape = (evento: KeyboardEvent) => {

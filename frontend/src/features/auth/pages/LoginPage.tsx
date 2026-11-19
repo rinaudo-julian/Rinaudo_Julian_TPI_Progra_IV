@@ -15,7 +15,7 @@ function destinoDespuesDeLogin(usuario: Usuario, desde?: string): string {
   return usuario.role === ROLES.ADMIN ? '/admin/resumen' : '/'
 }
 
-function LoginPage() {
+const LoginPage = () => {
   const usuario = useAuthStore((estado) => estado.usuario)
   const login = useAuthStore((estado) => estado.login)
   const location = useLocation()

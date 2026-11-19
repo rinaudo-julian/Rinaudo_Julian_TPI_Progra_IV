@@ -15,7 +15,7 @@ import {
   validarUsername,
 } from '../validaciones'
 
-function RegisterPage() {
+const RegisterPage = () => {
   const usuario = useAuthStore((estado) => estado.usuario)
   const registrar = useRegistrar()
   const navigate = useNavigate()
