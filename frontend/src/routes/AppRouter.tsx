@@ -7,6 +7,7 @@ import { ROLES } from '../features/auth/types/usuario'
 import CarritoPage from '../features/pedidos/pages/CarritoPage'
 import CheckoutPage from '../features/pedidos/pages/CheckoutPage'
 import MisPedidosPage from '../features/pedidos/pages/MisPedidosPage'
+import AdminPedidosPage from '../features/pedidos/pages/AdminPedidosPage'
 import AdminResumenPage from '../features/pedidos/pages/AdminResumenPage'
 import CatalogoPage from '../features/productos/pages/CatalogoPage'
 import AdminLayout from '../shared/layout/AdminLayout'
@@ -30,6 +31,7 @@ const AppRouter = () => {
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<Navigate to="/admin/resumen" replace />} />
               <Route path="resumen" element={<AdminResumenPage />} />
+              <Route path="pedidos" element={<AdminPedidosPage />} />
             </Route>
           </Route>
           <Route path="/login" element={<LoginPage />} />
