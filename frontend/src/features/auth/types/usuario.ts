@@ -1,4 +1,9 @@
-export type Rol = 'user' | 'admin'
+export const ROLES = {
+  ADMIN: 'admin',
+  USER: 'user',
+} as const
+
+export type Rol = (typeof ROLES)[keyof typeof ROLES]
 
 export interface Usuario {
   id: number

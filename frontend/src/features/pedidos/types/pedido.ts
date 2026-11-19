@@ -1,6 +1,18 @@
-export type EstadoPedido = 'PENDIENTE' | 'EN_PREPARACION' | 'ENTREGADO' | 'CANCELADO'
+export const ESTADOS_PEDIDO = {
+  PENDIENTE: 'PENDIENTE',
+  EN_PREPARACION: 'EN_PREPARACION',
+  ENTREGADO: 'ENTREGADO',
+  CANCELADO: 'CANCELADO',
+} as const
 
-export type FormaPago = 'EFECTIVO' | 'TRANSFERENCIA'
+export type EstadoPedido = (typeof ESTADOS_PEDIDO)[keyof typeof ESTADOS_PEDIDO]
+
+export const FORMAS_PAGO = {
+  EFECTIVO: 'EFECTIVO',
+  TRANSFERENCIA: 'TRANSFERENCIA',
+} as const
+
+export type FormaPago = (typeof FORMAS_PAGO)[keyof typeof FORMAS_PAGO]
 
 export interface DetallePedido {
   producto_id: number
@@ -38,4 +50,10 @@ export interface PedidoCreate {
   forma_pago: FormaPago
   direccion_entrega: string
   notas: string | null
+}
+
+export interface FiltrosPedidos {
+  skip: number
+  limit: number
+  estado?: EstadoPedido
 }

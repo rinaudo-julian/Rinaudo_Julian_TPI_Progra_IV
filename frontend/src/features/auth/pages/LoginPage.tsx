@@ -7,12 +7,12 @@ import Button from '../../../shared/ui/Button'
 import Card from '../../../shared/ui/Card'
 import Input from '../../../shared/ui/Input'
 import { useAuthStore } from '../../../store/authStore'
-import type { EstadoNavegacionLogin, Usuario } from '../types/usuario'
+import { ROLES, type EstadoNavegacionLogin, type Usuario } from '../types/usuario'
 import { validarObligatorio } from '../validaciones'
 
 function destinoDespuesDeLogin(usuario: Usuario, desde?: string): string {
   if (desde) return desde
-  return usuario.role === 'admin' ? '/admin/resumen' : '/'
+  return usuario.role === ROLES.ADMIN ? '/admin/resumen' : '/'
 }
 
 function LoginPage() {
