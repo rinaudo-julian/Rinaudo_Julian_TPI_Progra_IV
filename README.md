@@ -5,7 +5,7 @@ Aplicación web para un negocio de comidas. Los clientes recorren el catálogo, 
 El proyecto se divide en dos partes independientes que se comunican por HTTP:
 
 - **Backend:** API REST con FastAPI + SQLModel sobre PostgreSQL, organizada en capas (Router → Service → Unit of Work → Repository → Model).
-- **Frontend:** aplicación React + TypeScript (en desarrollo).
+- **Frontend:** aplicación React + TypeScript con Vite, organizada por features.
 
 **Repositorio:** https://github.com/rinaudo-julian/Rinaudo_Julian_TPI_Progra_IV
 
@@ -92,4 +92,40 @@ La API queda disponible en http://localhost:8000/api/v1 y la documentación inte
 
 ## Frontend
 
-Pendiente.
+### Requisitos
+
+- Node.js 20.19 o superior
+- pnpm 10
+
+### Instalación y ejecución
+
+Todos los comandos se ejecutan desde la carpeta `frontend/`. El backend tiene que estar corriendo.
+
+1. Instalar las dependencias:
+
+   ```bash
+   cd frontend
+   pnpm install
+   ```
+
+2. Crear el archivo de variables de entorno a partir del ejemplo:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+3. Levantar el servidor de desarrollo:
+
+   ```bash
+   pnpm dev
+   ```
+
+La aplicación queda disponible en http://localhost:5173. Hay que abrirla con `localhost` y no con `127.0.0.1`: la cookie de sesión y CORS solo aceptan el origen configurado en `FRONTEND_ORIGIN`.
+
+Para generar la versión de producción: `pnpm build`.
+
+### Variables de entorno
+
+| Variable | Descripción | Ejemplo |
+|---|---|---|
+| `VITE_API_URL` | URL base de la API | `http://localhost:8000/api/v1` |
