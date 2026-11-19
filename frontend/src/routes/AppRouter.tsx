@@ -12,6 +12,7 @@ import AdminPedidosPage from '@/features/pedidos/pages/AdminPedidosPage'
 import AdminResumenPage from '@/features/pedidos/pages/AdminResumenPage'
 import AdminProductosPage from '@/features/productos/pages/AdminProductosPage'
 import CatalogoPage from '@/features/productos/pages/CatalogoPage'
+import AdminUsuariosPage from '@/features/usuarios/pages/AdminUsuariosPage'
 import AdminLayout from '@/shared/layout/AdminLayout'
 import MainLayout from '@/shared/layout/MainLayout'
 import ProtectedRoute from './ProtectedRoute'
@@ -36,6 +37,7 @@ const AppRouter = () => {
               <Route path="pedidos" element={<AdminPedidosPage />} />
               <Route path="categorias" element={<AdminCategoriasPage />} />
               <Route path="productos" element={<AdminProductosPage />} />
+              <Route path="usuarios" element={<AdminUsuariosPage />} />
             </Route>
           </Route>
           <Route path="/login" element={<LoginPage />} />
