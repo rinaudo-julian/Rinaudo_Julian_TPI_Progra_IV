@@ -36,7 +36,7 @@ Todos los comandos se ejecutan desde la carpeta `backend/`.
    cp .env.example .env
    ```
 
-   En `.env`, completar `DATABASE_URL` con los datos de conexión y reemplazar `SECRET_KEY` por una clave propia de al menos 32 caracteres. Se puede generar con:
+   En `.env`, completar `DATABASE_URL` con el usuario y la contraseña de PostgreSQL; el nombre de la base tiene que coincidir con el que se crea en el paso 3 (`foodstore_db`). Reemplazar `SECRET_KEY` por una clave propia de al menos 32 caracteres. Se puede generar con:
 
    ```bash
    python -c "import secrets; print(secrets.token_urlsafe(48))"
