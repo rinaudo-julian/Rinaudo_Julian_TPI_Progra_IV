@@ -3,9 +3,12 @@ import {
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
   useReactTable,
+  type PaginationState,
+  type SortingState,
 } from '@tanstack/react-table'
-import { useMemo } from 'react'
+import { useState } from 'react'
 
 import Paginacion from '@/shared/components/Paginacion'
 import BadgeEstado from '@/shared/ui/BadgeEstado'
@@ -21,7 +24,32 @@ const AVANCE_POR_ESTADO: Partial<Record<EstadoPedido, { estado: EstadoPedido; et
   [ESTADOS_PEDIDO.EN_PREPARACION]: { estado: ESTADOS_PEDIDO.ENTREGADO, etiqueta: 'Entregar' },
 }
 
+const INDICADOR_DE_ORDEN: Record<string, string> = { asc: ' ▲', desc: ' ▼' }
+
 const columnHelper = createColumnHelper<Pedido>()
+
+const columnas = [
+  columnHelper.accessor('id', {
+    header: 'Pedido',
+    cell: (info) => `#${info.getValue()}`,
+  }),
+  columnHelper.accessor('created_at', {
+    header: 'Fecha',
+    cell: (info) => formatearFecha(info.getValue()),
+  }),
+  columnHelper.accessor('usuario_id', {
+    header: 'Usuario',
+    cell: (info) => `#${info.getValue()}`,
+  }),
+  columnHelper.accessor('total', {
+    header: 'Total',
+    cell: (info) => formatearPrecio(info.getValue()),
+  }),
+  columnHelper.accessor('estado', {
+    header: 'Estado',
+    cell: (info) => <BadgeEstado estado={info.getValue()} />,
+  }),
+]
 
 interface TablaPedidosProps {
   pedidos: Pedido[]
@@ -38,72 +66,21 @@ const TablaPedidos = ({
   onAvanzar,
   onCancelar,
 }: TablaPedidosProps) => {
-  const columnas = useMemo(
-    () => [
-      columnHelper.accessor('id', {
-        header: 'Pedido',
-        cell: (celda) => `#${celda.getValue()}`,
-      }),
-      columnHelper.accessor('created_at', {
-        header: 'Fecha',
-        cell: (celda) => formatearFecha(celda.getValue()),
-      }),
-      columnHelper.accessor('usuario_id', {
-        header: 'Usuario',
-        cell: (celda) => `#${celda.getValue()}`,
-      }),
-      columnHelper.accessor('total', {
-        header: 'Total',
-        cell: (celda) => formatearPrecio(celda.getValue()),
-      }),
-      columnHelper.accessor('estado', {
-        header: 'Estado',
-        cell: (celda) => <BadgeEstado estado={celda.getValue()} />,
-      }),
-      columnHelper.display({
-        id: 'acciones',
-        header: 'Acciones',
-        cell: ({ row }) => {
-          const pedido = row.original
-          const avance = AVANCE_POR_ESTADO[pedido.estado]
-          const enProceso = pedidoEnProcesoId === pedido.id
-          return (
-            <div className="flex flex-wrap gap-2">
-              <Button variante="secundario" onClick={() => onVerDetalle(pedido)}>
-                Detalle
-              </Button>
-              {avance && (
-                <Button
-                  cargando={enProceso}
-                  disabled={pedidoEnProcesoId !== null}
-                  onClick={() => onAvanzar(pedido, avance.estado)}
-                >
-                  {avance.etiqueta}
-                </Button>
-              )}
-              {avance && (
-                <Button
-                  variante="peligro"
-                  disabled={pedidoEnProcesoId !== null}
-                  onClick={() => onCancelar(pedido)}
-                >
-                  Cancelar
-                </Button>
-              )}
-            </div>
-          )
-        },
-      }),
-    ],
-    [pedidoEnProcesoId, onVerDetalle, onAvanzar, onCancelar],
-  )
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: PEDIDOS_POR_PAGINA,
+  })
 
   const tabla = useReactTable({
     data: pedidos,
     columns: columnas,
+    state: { sorting, pagination },
+    onSortingChange: setSorting,
+    onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    initialState: { pagination: { pageIndex: 0, pageSize: PEDIDOS_POR_PAGINA } },
   })
 
   return (
@@ -115,22 +92,62 @@ const TablaPedidos = ({
               <tr key={grupo.id}>
                 {grupo.headers.map((encabezado) => (
                   <th key={encabezado.id} className="px-4 py-3 font-medium">
-                    {flexRender(encabezado.column.columnDef.header, encabezado.getContext())}
+                    {encabezado.isPlaceholder ? null : (
+                      <button
+                        type="button"
+                        onClick={encabezado.column.getToggleSortingHandler()}
+                        disabled={!encabezado.column.getCanSort()}
+                        className="font-medium hover:text-gray-900"
+                      >
+                        {flexRender(encabezado.column.columnDef.header, encabezado.getContext())}
+                        {INDICADOR_DE_ORDEN[encabezado.column.getIsSorted() as string] ?? null}
+                      </button>
+                    )}
                   </th>
                 ))}
+                <th className="px-4 py-3 font-medium">Acciones</th>
               </tr>
             ))}
           </thead>
           <tbody className="divide-y divide-gray-100 text-gray-800">
-            {tabla.getRowModel().rows.map((fila) => (
-              <tr key={fila.id}>
-                {fila.getVisibleCells().map((celda) => (
-                  <td key={celda.id} className="px-4 py-3">
-                    {flexRender(celda.column.columnDef.cell, celda.getContext())}
+            {tabla.getRowModel().rows.map((fila) => {
+              const pedido = fila.original
+              const avance = AVANCE_POR_ESTADO[pedido.estado]
+              return (
+                <tr key={fila.id}>
+                  {fila.getVisibleCells().map((celda) => (
+                    <td key={celda.id} className="px-4 py-3">
+                      {flexRender(celda.column.columnDef.cell, celda.getContext())}
+                    </td>
+                  ))}
+                  <td className="px-4 py-3">
+                    <div className="flex flex-wrap gap-2">
+                      <Button variante="secundario" onClick={() => onVerDetalle(pedido)}>
+                        Detalle
+                      </Button>
+                      {avance && (
+                        <Button
+                          cargando={pedidoEnProcesoId === pedido.id}
+                          disabled={pedidoEnProcesoId !== null}
+                          onClick={() => onAvanzar(pedido, avance.estado)}
+                        >
+                          {avance.etiqueta}
+                        </Button>
+                      )}
+                      {avance && (
+                        <Button
+                          variante="peligro"
+                          disabled={pedidoEnProcesoId !== null}
+                          onClick={() => onCancelar(pedido)}
+                        >
+                          Cancelar
+                        </Button>
+                      )}
+                    </div>
                   </td>
-                ))}
-              </tr>
-            ))}
+                </tr>
+              )
+            })}
           </tbody>
         </table>
       </div>
