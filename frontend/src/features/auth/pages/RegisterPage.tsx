@@ -59,7 +59,8 @@ const RegisterPage = () => {
           <formulario.Field
             name="username"
             validators={{ onChange: ({ value }) => validarUsername(value) }}
-            children={(campo) => (
+          >
+            {(campo) => (
               <Input
                 id={campo.name}
                 label="Usuario"
@@ -70,11 +71,12 @@ const RegisterPage = () => {
                 error={campo.state.meta.isTouched ? campo.state.meta.errors[0] : undefined}
               />
             )}
-          />
+          </formulario.Field>
           <formulario.Field
             name="full_name"
             validators={{ onChange: ({ value }) => validarNombreCompleto(value) }}
-            children={(campo) => (
+          >
+            {(campo) => (
               <Input
                 id={campo.name}
                 label="Nombre completo"
@@ -85,11 +87,12 @@ const RegisterPage = () => {
                 error={campo.state.meta.isTouched ? campo.state.meta.errors[0] : undefined}
               />
             )}
-          />
+          </formulario.Field>
           <formulario.Field
             name="email"
             validators={{ onChange: ({ value }) => validarEmail(value) }}
-            children={(campo) => (
+          >
+            {(campo) => (
               <Input
                 id={campo.name}
                 label="Email"
@@ -101,11 +104,12 @@ const RegisterPage = () => {
                 error={campo.state.meta.isTouched ? campo.state.meta.errors[0] : undefined}
               />
             )}
-          />
+          </formulario.Field>
           <formulario.Field
             name="password"
             validators={{ onChange: ({ value }) => validarPassword(value) }}
-            children={(campo) => (
+          >
+            {(campo) => (
               <Input
                 id={campo.name}
                 label="Contraseña"
@@ -117,7 +121,7 @@ const RegisterPage = () => {
                 error={campo.state.meta.isTouched ? campo.state.meta.errors[0] : undefined}
               />
             )}
-          />
+          </formulario.Field>
           {registrar.isError && (
             <p className="text-sm text-red-600">{handleApiError(registrar.error)}</p>
           )}

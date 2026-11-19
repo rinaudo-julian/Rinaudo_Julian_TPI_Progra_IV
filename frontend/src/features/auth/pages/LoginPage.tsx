@@ -58,7 +58,8 @@ const LoginPage = () => {
           <formulario.Field
             name="username"
             validators={{ onChange: ({ value }) => validarObligatorio(value) }}
-            children={(campo) => (
+          >
+            {(campo) => (
               <Input
                 id={campo.name}
                 label="Usuario"
@@ -69,11 +70,12 @@ const LoginPage = () => {
                 error={campo.state.meta.isTouched ? campo.state.meta.errors[0] : undefined}
               />
             )}
-          />
+          </formulario.Field>
           <formulario.Field
             name="password"
             validators={{ onChange: ({ value }) => validarObligatorio(value) }}
-            children={(campo) => (
+          >
+            {(campo) => (
               <Input
                 id={campo.name}
                 label="Contraseña"
@@ -85,16 +87,15 @@ const LoginPage = () => {
                 error={campo.state.meta.isTouched ? campo.state.meta.errors[0] : undefined}
               />
             )}
-          />
+          </formulario.Field>
           {errorDeLogin && <p className="text-sm text-red-600">{errorDeLogin}</p>}
-          <formulario.Subscribe
-            selector={(estado) => estado.isSubmitting}
-            children={(enviando) => (
+          <formulario.Subscribe selector={(estado) => estado.isSubmitting}>
+            {(enviando) => (
               <Button type="submit" cargando={enviando}>
                 Ingresar
               </Button>
             )}
-          />
+          </formulario.Subscribe>
         </form>
         <p className="mt-4 text-center text-sm text-gray-600">
           ¿No tenés cuenta?{' '}

@@ -12,6 +12,7 @@ import { useCartStore } from '@/store/cartStore'
 import ResumenCarrito from '@/features/pedidos/components/ResumenCarrito'
 import { useCrearPedido } from '@/features/pedidos/hooks/useCrearPedido'
 import { FORMAS_PAGO, type FormaPago } from '@/features/pedidos/types/pedido'
+import { validarDireccion } from '@/features/pedidos/validaciones'
 
 const FORMAS_DE_PAGO: { valor: FormaPago; etiqueta: string }[] = [
   { valor: FORMAS_PAGO.EFECTIVO, etiqueta: 'Efectivo' },
@@ -28,13 +29,6 @@ const VALORES_INICIALES: FormularioCheckout = {
   direccion_entrega: '',
   forma_pago: FORMAS_PAGO.EFECTIVO,
   notas: '',
-}
-
-function validarDireccion(direccion: string): string | undefined {
-  const largo = direccion.trim().length
-  if (largo < 5) return 'Mínimo 5 caracteres'
-  if (largo > 200) return 'Máximo 200 caracteres'
-  return undefined
 }
 
 const CheckoutPage = () => {
@@ -97,7 +91,8 @@ const CheckoutPage = () => {
             <formulario.Field
               name="direccion_entrega"
               validators={{ onChange: ({ value }) => validarDireccion(value) }}
-              children={(campo) => (
+            >
+              {(campo) => (
                 <Input
                   id={campo.name}
                   label="Dirección de entrega"
@@ -108,10 +103,9 @@ const CheckoutPage = () => {
                   error={campo.state.meta.isTouched ? campo.state.meta.errors[0] : undefined}
                 />
               )}
-            />
-            <formulario.Field
-              name="forma_pago"
-              children={(campo) => (
+            </formulario.Field>
+            <formulario.Field name="forma_pago">
+              {(campo) => (
                 <fieldset className="flex flex-col gap-2">
                   <legend className="mb-1 text-sm font-medium text-gray-700">
                     Forma de pago
@@ -131,10 +125,9 @@ const CheckoutPage = () => {
                   ))}
                 </fieldset>
               )}
-            />
-            <formulario.Field
-              name="notas"
-              children={(campo) => (
+            </formulario.Field>
+            <formulario.Field name="notas">
+              {(campo) => (
                 <div className="flex flex-col gap-1">
                   <label htmlFor={campo.name} className="text-sm font-medium text-gray-700">
                     Notas (opcional)
@@ -149,7 +142,7 @@ const CheckoutPage = () => {
                   />
                 </div>
               )}
-            />
+            </formulario.Field>
             {crearPedido.isError && (
               <p className="text-sm text-red-600">{handleApiError(crearPedido.error)}</p>
             )}

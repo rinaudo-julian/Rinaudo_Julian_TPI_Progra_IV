@@ -1,60 +1,48 @@
-import { useState } from "react";
+import { useState } from 'react'
 
-import { handleApiError } from "@/shared/api/handleApiError";
-import EstadoError from "@/shared/components/EstadoError";
-import EstadoVacio from "@/shared/components/EstadoVacio";
-import Skeleton from "@/shared/components/Skeleton";
-import Button from "@/shared/ui/Button";
-import Modal from "@/shared/ui/Modal";
-import DetallePedido from "@/features/pedidos/components/DetallePedido";
-import TablaPedidos from "@/features/pedidos/components/TablaPedidos";
-import { useCambiarEstadoPedido } from "@/features/pedidos/hooks/useCambiarEstadoPedido";
-import { usePedidos } from "@/features/pedidos/hooks/usePedidos";
-import {
-  ESTADOS_PEDIDO,
-  type EstadoPedido,
-  type Pedido
-} from "@/features/pedidos/types/pedido";
+import { handleApiError } from '@/shared/api/handleApiError'
+import EstadoError from '@/shared/components/EstadoError'
+import EstadoVacio from '@/shared/components/EstadoVacio'
+import Skeleton from '@/shared/components/Skeleton'
+import Button from '@/shared/ui/Button'
+import Modal from '@/shared/ui/Modal'
+import DetallePedido from '@/features/pedidos/components/DetallePedido'
+import TablaPedidos from '@/features/pedidos/components/TablaPedidos'
+import { useCambiarEstadoPedido } from '@/features/pedidos/hooks/useCambiarEstadoPedido'
+import { usePedidos } from '@/features/pedidos/hooks/usePedidos'
+import { ESTADOS_PEDIDO, type EstadoPedido, type Pedido } from '@/features/pedidos/types/pedido'
 
-const LIMITE_DEL_PANEL = 100;
+const LIMITE_DEL_PANEL = 100
 
 const AdminPedidosPage = () => {
-  const [estadoFiltro, setEstadoFiltro] = useState<EstadoPedido | undefined>(
-    undefined
-  );
-  const [pedidoEnDetalle, setPedidoEnDetalle] = useState<Pedido | null>(null);
-  const [pedidoACancelar, setPedidoACancelar] = useState<Pedido | null>(null);
+  const [estadoFiltro, setEstadoFiltro] = useState<EstadoPedido | undefined>(undefined)
+  const [pedidoEnDetalle, setPedidoEnDetalle] = useState<Pedido | null>(null)
+  const [pedidoACancelar, setPedidoACancelar] = useState<Pedido | null>(null)
 
-  const pedidos = usePedidos({
-    skip: 0,
-    limit: LIMITE_DEL_PANEL,
-    estado: estadoFiltro
-  });
-  const cambiarEstado = useCambiarEstadoPedido();
+  const pedidos = usePedidos({ skip: 0, limit: LIMITE_DEL_PANEL, estado: estadoFiltro })
+  const cambiarEstado = useCambiarEstadoPedido()
 
-  const pedidoEnProcesoId = cambiarEstado.isPending
-    ? cambiarEstado.variables.id
-    : null;
+  const pedidoEnProcesoId = cambiarEstado.isPending ? cambiarEstado.variables.id : null
 
   const cambiarFiltro = (valor: string) => {
-    setEstadoFiltro(valor === "" ? undefined : (valor as EstadoPedido));
-  };
+    setEstadoFiltro(valor === '' ? undefined : (valor as EstadoPedido))
+  }
 
   const avanzar = (pedido: Pedido, nuevoEstado: EstadoPedido) => {
-    cambiarEstado.mutate({ id: pedido.id, estado: nuevoEstado });
-  };
+    cambiarEstado.mutate({ id: pedido.id, estado: nuevoEstado })
+  }
 
   const abrirCancelacion = (pedido: Pedido) => {
-    cambiarEstado.reset();
-    setPedidoACancelar(pedido);
-  };
+    cambiarEstado.reset()
+    setPedidoACancelar(pedido)
+  }
 
   const confirmarCancelacion = (pedido: Pedido) => {
     cambiarEstado.mutate(
       { id: pedido.id, estado: ESTADOS_PEDIDO.CANCELADO },
-      { onSuccess: () => setPedidoACancelar(null) }
-    );
-  };
+      { onSuccess: () => setPedidoACancelar(null) },
+    )
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -62,7 +50,7 @@ const AdminPedidosPage = () => {
         <h1 className="text-3xl font-bold text-gray-800">Pedidos</h1>
         <select
           aria-label="Filtrar por estado"
-          value={estadoFiltro ?? ""}
+          value={estadoFiltro ?? ''}
           onChange={(evento) => cambiarFiltro(evento.target.value)}
           className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-orange-300"
         >
@@ -102,7 +90,7 @@ const AdminPedidosPage = () => {
       )}
 
       <Modal
-        titulo={pedidoEnDetalle ? `Pedido #${pedidoEnDetalle.id}` : ""}
+        titulo={pedidoEnDetalle ? `Pedido #${pedidoEnDetalle.id}` : ''}
         abierto={pedidoEnDetalle !== null}
         onCerrar={() => setPedidoEnDetalle(null)}
       >
@@ -110,20 +98,18 @@ const AdminPedidosPage = () => {
       </Modal>
 
       <Modal
-        titulo={pedidoACancelar ? `Cancelar pedido #${pedidoACancelar.id}` : ""}
+        titulo={pedidoACancelar ? `Cancelar pedido #${pedidoACancelar.id}` : ''}
         abierto={pedidoACancelar !== null}
         onCerrar={() => setPedidoACancelar(null)}
       >
         {pedidoACancelar && (
           <div className="flex flex-col gap-4">
             <p className="text-sm text-gray-700">
-              ¿Seguro que querés cancelar este pedido? El stock de sus productos
-              se va a restituir.
+              ¿Seguro que querés cancelar este pedido? El stock de sus productos se va a
+              restituir.
             </p>
             {cambiarEstado.isError && (
-              <p className="text-sm text-red-600">
-                {handleApiError(cambiarEstado.error)}
-              </p>
+              <p className="text-sm text-red-600">{handleApiError(cambiarEstado.error)}</p>
             )}
             <div className="flex gap-2">
               <Button
@@ -133,10 +119,7 @@ const AdminPedidosPage = () => {
               >
                 Sí, cancelar
               </Button>
-              <Button
-                variante="secundario"
-                onClick={() => setPedidoACancelar(null)}
-              >
+              <Button variante="secundario" onClick={() => setPedidoACancelar(null)}>
                 Volver
               </Button>
             </div>
@@ -144,7 +127,7 @@ const AdminPedidosPage = () => {
         )}
       </Modal>
     </div>
-  );
-};
+  )
+}
 
-export default AdminPedidosPage;
+export default AdminPedidosPage
