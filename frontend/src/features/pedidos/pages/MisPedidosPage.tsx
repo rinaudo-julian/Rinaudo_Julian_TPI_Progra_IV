@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { handleApiError } from '../../../shared/api/handleApiError'
@@ -51,64 +51,56 @@ const MisPedidosPage = () => {
     })
   }
 
-  let contenido: ReactNode
-  if (pedidos.isPending) {
-    contenido = (
-      <div className="flex flex-col gap-3">
-        {Array.from({ length: 3 }, (_, indice) => (
-          <Skeleton key={indice} className="h-20" />
-        ))}
-      </div>
-    )
-  } else if (pedidos.isError) {
-    contenido = (
-      <EstadoError
-        mensaje={handleApiError(pedidos.error)}
-        onReintentar={() => void pedidos.refetch()}
-      />
-    )
-  } else if (pedidos.data.items.length === 0) {
-    contenido = (
-      <div className="flex flex-col gap-4">
-        <EstadoVacio mensaje="Todavía no hiciste ningún pedido." />
-        <Link to="/" className="text-center text-orange-600 hover:underline">
-          Ir al catálogo
-        </Link>
-      </div>
-    )
-  } else {
-    contenido = (
-      <div
-        className={`flex flex-col gap-3 transition-opacity ${pedidos.isPlaceholderData ? 'opacity-60' : ''}`}
-      >
-        {pedidos.data.items.map((pedido) => (
-          <Card
-            key={pedido.id}
-            className="flex flex-wrap items-center justify-between gap-4 p-4"
-          >
-            <div className="flex flex-col gap-1">
-              <span className="font-semibold text-gray-800">Pedido #{pedido.id}</span>
-              <span className="text-sm text-gray-500">
-                {formatearFecha(pedido.created_at)}
-              </span>
-            </div>
-            <BadgeEstado estado={pedido.estado} />
-            <span className="font-semibold text-gray-900">
-              {formatearPrecio(pedido.total)}
-            </span>
-            <Button variante="secundario" onClick={() => abrirDetalle(pedido.id)}>
-              Ver detalle
-            </Button>
-          </Card>
-        ))}
-      </div>
-    )
-  }
-
   return (
     <div className="flex flex-col gap-6">
       <h1 className="text-3xl font-bold text-gray-800">Mis pedidos</h1>
-      {contenido}
+      {pedidos.isPending && (
+        <div className="flex flex-col gap-3">
+          {Array.from({ length: 3 }, (_, indice) => (
+            <Skeleton key={indice} className="h-20" />
+          ))}
+        </div>
+      )}
+      {pedidos.isError && (
+        <EstadoError
+          mensaje={handleApiError(pedidos.error)}
+          onReintentar={() => void pedidos.refetch()}
+        />
+      )}
+      {pedidos.isSuccess && pedidos.data.items.length === 0 && (
+        <div className="flex flex-col gap-4">
+          <EstadoVacio mensaje="Todavía no hiciste ningún pedido." />
+          <Link to="/" className="text-center text-orange-600 hover:underline">
+            Ir al catálogo
+          </Link>
+        </div>
+      )}
+      {pedidos.isSuccess && pedidos.data.items.length > 0 && (
+        <div
+          className={`flex flex-col gap-3 transition-opacity ${pedidos.isPlaceholderData ? 'opacity-60' : ''}`}
+        >
+          {pedidos.data.items.map((pedido) => (
+            <Card
+              key={pedido.id}
+              className="flex flex-wrap items-center justify-between gap-4 p-4"
+            >
+              <div className="flex flex-col gap-1">
+                <span className="font-semibold text-gray-800">Pedido #{pedido.id}</span>
+                <span className="text-sm text-gray-500">
+                  {formatearFecha(pedido.created_at)}
+                </span>
+              </div>
+              <BadgeEstado estado={pedido.estado} />
+              <span className="font-semibold text-gray-900">
+                {formatearPrecio(pedido.total)}
+              </span>
+              <Button variante="secundario" onClick={() => abrirDetalle(pedido.id)}>
+                Ver detalle
+              </Button>
+            </Card>
+          ))}
+        </div>
+      )}
       <Paginacion
         pagina={pagina}
         totalPaginas={totalPaginas}

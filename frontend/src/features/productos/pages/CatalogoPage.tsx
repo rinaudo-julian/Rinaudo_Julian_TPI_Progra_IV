@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react'
+import { useState } from 'react'
 
 import { handleApiError } from '../../../shared/api/handleApiError'
 import EstadoError from '../../../shared/components/EstadoError'
@@ -38,36 +38,6 @@ const CatalogoPage = () => {
     setPagina(0)
   }
 
-  let contenido: ReactNode
-  if (productos.isPending) {
-    contenido = (
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {Array.from({ length: 6 }, (_, indice) => (
-          <Skeleton key={indice} className="h-80" />
-        ))}
-      </div>
-    )
-  } else if (productos.isError) {
-    contenido = (
-      <EstadoError
-        mensaje={handleApiError(productos.error)}
-        onReintentar={() => void productos.refetch()}
-      />
-    )
-  } else if (productos.data.items.length === 0) {
-    contenido = <EstadoVacio mensaje="No hay productos que coincidan con la búsqueda." />
-  } else {
-    contenido = (
-      <div
-        className={`grid gap-4 transition-opacity sm:grid-cols-2 lg:grid-cols-3 ${productos.isPlaceholderData ? 'opacity-60' : ''}`}
-      >
-        {productos.data.items.map((producto) => (
-          <ProductoCard key={producto.id} producto={producto} />
-        ))}
-      </div>
-    )
-  }
-
   return (
     <div className="flex flex-col gap-6">
       <h1 className="text-3xl font-bold text-gray-800">Catálogo</h1>
@@ -105,7 +75,31 @@ const CatalogoPage = () => {
         </select>
       </div>
 
-      {contenido}
+      {productos.isPending && (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 6 }, (_, indice) => (
+            <Skeleton key={indice} className="h-80" />
+          ))}
+        </div>
+      )}
+      {productos.isError && (
+        <EstadoError
+          mensaje={handleApiError(productos.error)}
+          onReintentar={() => void productos.refetch()}
+        />
+      )}
+      {productos.isSuccess && productos.data.items.length === 0 && (
+        <EstadoVacio mensaje="No hay productos que coincidan con la búsqueda." />
+      )}
+      {productos.isSuccess && productos.data.items.length > 0 && (
+        <div
+          className={`grid gap-4 transition-opacity sm:grid-cols-2 lg:grid-cols-3 ${productos.isPlaceholderData ? 'opacity-60' : ''}`}
+        >
+          {productos.data.items.map((producto) => (
+            <ProductoCard key={producto.id} producto={producto} />
+          ))}
+        </div>
+      )}
 
       <Paginacion
         pagina={pagina}
