@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 
-import AppRouter from './routes/AppRouter'
-import { useAuthStore } from './store/authStore'
+import AppRouter from '@/routes/AppRouter'
+import { useAuthStore } from '@/store/authStore'
 
 const App = () => {
   const checkSession = useAuthStore((estado) => estado.checkSession)

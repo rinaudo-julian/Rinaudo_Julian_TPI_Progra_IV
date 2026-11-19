@@ -1,17 +1,17 @@
 import { useForm } from '@tanstack/react-form'
 import { Link, useNavigate } from 'react-router-dom'
 
-import { handleApiError } from '../../../shared/api/handleApiError'
-import EstadoVacio from '../../../shared/components/EstadoVacio'
-import Button from '../../../shared/ui/Button'
-import Card from '../../../shared/ui/Card'
-import Input from '../../../shared/ui/Input'
-import { useAuthStore } from '../../../store/authStore'
-import { ROLES } from '../../auth/types/usuario'
-import { useCartStore } from '../../../store/cartStore'
-import ResumenCarrito from '../components/ResumenCarrito'
-import { useCrearPedido } from '../hooks/useCrearPedido'
-import { FORMAS_PAGO, type FormaPago } from '../types/pedido'
+import { handleApiError } from '@/shared/api/handleApiError'
+import EstadoVacio from '@/shared/components/EstadoVacio'
+import Button from '@/shared/ui/Button'
+import Card from '@/shared/ui/Card'
+import Input from '@/shared/ui/Input'
+import { useAuthStore } from '@/store/authStore'
+import { ROLES } from '@/features/auth/types/usuario'
+import { useCartStore } from '@/store/cartStore'
+import ResumenCarrito from '@/features/pedidos/components/ResumenCarrito'
+import { useCrearPedido } from '@/features/pedidos/hooks/useCrearPedido'
+import { FORMAS_PAGO, type FormaPago } from '@/features/pedidos/types/pedido'
 
 const FORMAS_DE_PAGO: { valor: FormaPago; etiqueta: string }[] = [
   { valor: FORMAS_PAGO.EFECTIVO, etiqueta: 'Efectivo' },

@@ -1,5 +1,5 @@
-import { axiosInstance } from '../../../shared/api/axiosInstance'
-import type { FiltrosProductos, ProductosPaginados } from '../types/producto'
+import { axiosInstance } from '@/shared/api/axiosInstance'
+import type { FiltrosProductos, ProductosPaginados } from '@/features/productos/types/producto'
 
 export async function obtenerProductos(
   filtros: FiltrosProductos,

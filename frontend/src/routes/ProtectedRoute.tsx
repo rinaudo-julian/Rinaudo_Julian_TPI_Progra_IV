@@ -1,7 +1,7 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 
-import type { EstadoNavegacionLogin, Rol } from '../features/auth/types/usuario'
-import { useAuthStore } from '../store/authStore'
+import type { EstadoNavegacionLogin, Rol } from '@/features/auth/types/usuario'
+import { useAuthStore } from '@/store/authStore'
 
 interface ProtectedRouteProps {
   rolesPermitidos?: Rol[]

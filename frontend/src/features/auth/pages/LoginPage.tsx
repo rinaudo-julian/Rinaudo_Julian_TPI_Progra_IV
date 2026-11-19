@@ -2,13 +2,13 @@ import { useForm } from '@tanstack/react-form'
 import { useState } from 'react'
 import { Link, Navigate, useLocation } from 'react-router-dom'
 
-import { handleApiError } from '../../../shared/api/handleApiError'
-import Button from '../../../shared/ui/Button'
-import Card from '../../../shared/ui/Card'
-import Input from '../../../shared/ui/Input'
-import { useAuthStore } from '../../../store/authStore'
-import { ROLES, type EstadoNavegacionLogin, type Usuario } from '../types/usuario'
-import { validarObligatorio } from '../validaciones'
+import { handleApiError } from '@/shared/api/handleApiError'
+import Button from '@/shared/ui/Button'
+import Card from '@/shared/ui/Card'
+import Input from '@/shared/ui/Input'
+import { useAuthStore } from '@/store/authStore'
+import { ROLES, type EstadoNavegacionLogin, type Usuario } from '@/features/auth/types/usuario'
+import { validarObligatorio } from '@/features/auth/validaciones'
 
 function destinoDespuesDeLogin(usuario: Usuario, desde?: string): string {
   if (desde) return desde

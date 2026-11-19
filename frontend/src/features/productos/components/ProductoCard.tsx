@@ -1,8 +1,8 @@
-import { formatearPrecio } from '../../../shared/utils/formatearPrecio'
-import Button from '../../../shared/ui/Button'
-import Card from '../../../shared/ui/Card'
-import { useCartStore } from '../../../store/cartStore'
-import type { Producto } from '../types/producto'
+import { formatearPrecio } from '@/shared/utils/formatearPrecio'
+import Button from '@/shared/ui/Button'
+import Card from '@/shared/ui/Card'
+import { useCartStore } from '@/store/cartStore'
+import type { Producto } from '@/features/productos/types/producto'
 
 interface ProductoCardProps {
   producto: Producto

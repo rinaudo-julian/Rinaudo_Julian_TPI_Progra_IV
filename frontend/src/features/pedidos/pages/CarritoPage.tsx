@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom'
 
-import EstadoVacio from '../../../shared/components/EstadoVacio'
-import Button from '../../../shared/ui/Button'
-import Card from '../../../shared/ui/Card'
-import { formatearPrecio } from '../../../shared/utils/formatearPrecio'
-import { useCartStore } from '../../../store/cartStore'
+import EstadoVacio from '@/shared/components/EstadoVacio'
+import Button from '@/shared/ui/Button'
+import Card from '@/shared/ui/Card'
+import { formatearPrecio } from '@/shared/utils/formatearPrecio'
+import { useCartStore } from '@/store/cartStore'
 
 const CarritoPage = () => {
   const items = useCartStore((estado) => estado.items)

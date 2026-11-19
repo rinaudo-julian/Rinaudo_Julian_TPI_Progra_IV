@@ -7,12 +7,12 @@ import {
 } from '@tanstack/react-table'
 import { useMemo } from 'react'
 
-import Paginacion from '../../../shared/components/Paginacion'
-import BadgeEstado from '../../../shared/ui/BadgeEstado'
-import Button from '../../../shared/ui/Button'
-import { formatearFecha } from '../../../shared/utils/formatearFecha'
-import { formatearPrecio } from '../../../shared/utils/formatearPrecio'
-import { ESTADOS_PEDIDO, type EstadoPedido, type Pedido } from '../types/pedido'
+import Paginacion from '@/shared/components/Paginacion'
+import BadgeEstado from '@/shared/ui/BadgeEstado'
+import Button from '@/shared/ui/Button'
+import { formatearFecha } from '@/shared/utils/formatearFecha'
+import { formatearPrecio } from '@/shared/utils/formatearPrecio'
+import { ESTADOS_PEDIDO, type EstadoPedido, type Pedido } from '@/features/pedidos/types/pedido'
 
 const PEDIDOS_POR_PAGINA = 10
 

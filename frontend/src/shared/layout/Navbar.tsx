@@ -1,9 +1,9 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 
-import { ROLES } from '../../features/auth/types/usuario'
-import { useAuthStore } from '../../store/authStore'
-import { useCartStore } from '../../store/cartStore'
-import Button from '../ui/Button'
+import { ROLES } from '@/features/auth/types/usuario'
+import { useAuthStore } from '@/store/authStore'
+import { useCartStore } from '@/store/cartStore'
+import Button from '@/shared/ui/Button'
 
 function claseDeEnlace({ isActive }: { isActive: boolean }): string {
   return `text-sm font-medium ${isActive ? 'text-orange-600' : 'text-gray-600 hover:text-orange-600'}`

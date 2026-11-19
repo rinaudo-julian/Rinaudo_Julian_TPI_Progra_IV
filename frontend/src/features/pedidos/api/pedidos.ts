@@ -1,4 +1,4 @@
-import { axiosInstance } from '../../../shared/api/axiosInstance'
+import { axiosInstance } from '@/shared/api/axiosInstance'
 import type {
   EstadoPedido,
   FiltrosPedidos,
@@ -6,7 +6,7 @@ import type {
   PedidoCreate,
   PedidosPaginados,
   ResumenPedidos,
-} from '../types/pedido'
+} from '@/features/pedidos/types/pedido'
 
 export async function crearPedido(datos: PedidoCreate): Promise<Pedido> {
   const { data } = await axiosInstance.post<Pedido>('/pedidos', datos)

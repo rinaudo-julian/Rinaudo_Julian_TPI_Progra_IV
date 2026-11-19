@@ -1,7 +1,7 @@
-import BadgeEstado from '../../../shared/ui/BadgeEstado'
-import { formatearFecha } from '../../../shared/utils/formatearFecha'
-import { formatearPrecio } from '../../../shared/utils/formatearPrecio'
-import { FORMAS_PAGO, type FormaPago, type Pedido } from '../types/pedido'
+import BadgeEstado from '@/shared/ui/BadgeEstado'
+import { formatearFecha } from '@/shared/utils/formatearFecha'
+import { formatearPrecio } from '@/shared/utils/formatearPrecio'
+import { FORMAS_PAGO, type FormaPago, type Pedido } from '@/features/pedidos/types/pedido'
 
 const ETIQUETAS_FORMA_PAGO: Record<FormaPago, string> = {
   [FORMAS_PAGO.EFECTIVO]: 'Efectivo',

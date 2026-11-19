@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { crearPedido } from '../api/pedidos'
+import { crearPedido } from '@/features/pedidos/api/pedidos'
 
 export function useCrearPedido() {
   const queryClient = useQueryClient()

@@ -1,14 +1,14 @@
 import { useState } from 'react'
 
-import { handleApiError } from '../../../shared/api/handleApiError'
-import EstadoError from '../../../shared/components/EstadoError'
-import EstadoVacio from '../../../shared/components/EstadoVacio'
-import Paginacion from '../../../shared/components/Paginacion'
-import Skeleton from '../../../shared/components/Skeleton'
-import Button from '../../../shared/ui/Button'
-import { useCategorias } from '../../categorias/hooks/useCategorias'
-import ProductoCard from '../components/ProductoCard'
-import { useProductos } from '../hooks/useProductos'
+import { handleApiError } from '@/shared/api/handleApiError'
+import EstadoError from '@/shared/components/EstadoError'
+import EstadoVacio from '@/shared/components/EstadoVacio'
+import Paginacion from '@/shared/components/Paginacion'
+import Skeleton from '@/shared/components/Skeleton'
+import Button from '@/shared/ui/Button'
+import { useCategorias } from '@/features/categorias/hooks/useCategorias'
+import ProductoCard from '@/features/productos/components/ProductoCard'
+import { useProductos } from '@/features/productos/hooks/useProductos'
 
 const PRODUCTOS_POR_PAGINA = 6
 

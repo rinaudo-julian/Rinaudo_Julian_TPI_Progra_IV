@@ -1,19 +1,19 @@
 import { useForm } from '@tanstack/react-form'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 
-import { handleApiError } from '../../../shared/api/handleApiError'
-import Button from '../../../shared/ui/Button'
-import Card from '../../../shared/ui/Card'
-import Input from '../../../shared/ui/Input'
-import { useAuthStore } from '../../../store/authStore'
-import { useRegistrar } from '../hooks/useRegistrar'
-import type { EstadoNavegacionLogin } from '../types/usuario'
+import { handleApiError } from '@/shared/api/handleApiError'
+import Button from '@/shared/ui/Button'
+import Card from '@/shared/ui/Card'
+import Input from '@/shared/ui/Input'
+import { useAuthStore } from '@/store/authStore'
+import { useRegistrar } from '@/features/auth/hooks/useRegistrar'
+import type { EstadoNavegacionLogin } from '@/features/auth/types/usuario'
 import {
   validarEmail,
   validarNombreCompleto,
   validarPassword,
   validarUsername,
-} from '../validaciones'
+} from '@/features/auth/validaciones'
 
 const RegisterPage = () => {
   const usuario = useAuthStore((estado) => estado.usuario)

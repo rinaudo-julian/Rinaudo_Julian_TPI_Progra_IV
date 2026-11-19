@@ -1,9 +1,9 @@
-import { axiosInstance } from '../../../shared/api/axiosInstance'
+import { axiosInstance } from '@/shared/api/axiosInstance'
 import type {
   MensajeRespuesta,
   Usuario,
   UsuarioCreate,
-} from '../types/usuario'
+} from '@/features/auth/types/usuario'
 
 export async function iniciarSesion(
   username: string,

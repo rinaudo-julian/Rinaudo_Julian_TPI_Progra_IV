@@ -1,9 +1,9 @@
-import { handleApiError } from '../../../shared/api/handleApiError'
-import EstadoError from '../../../shared/components/EstadoError'
-import Skeleton from '../../../shared/components/Skeleton'
-import { formatearPrecio } from '../../../shared/utils/formatearPrecio'
-import TarjetaResumen from '../components/TarjetaResumen'
-import { useResumenPedidos } from '../hooks/useResumenPedidos'
+import { handleApiError } from '@/shared/api/handleApiError'
+import EstadoError from '@/shared/components/EstadoError'
+import Skeleton from '@/shared/components/Skeleton'
+import { formatearPrecio } from '@/shared/utils/formatearPrecio'
+import TarjetaResumen from '@/features/pedidos/components/TarjetaResumen'
+import { useResumenPedidos } from '@/features/pedidos/hooks/useResumenPedidos'
 
 const CANTIDAD_DE_TARJETAS = 6
 

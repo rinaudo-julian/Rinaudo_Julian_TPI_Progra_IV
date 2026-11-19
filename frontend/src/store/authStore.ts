@@ -5,8 +5,8 @@ import {
   cerrarSesion,
   iniciarSesion,
   obtenerUsuarioActual,
-} from '../features/auth/api/auth'
-import type { Usuario } from '../features/auth/types/usuario'
+} from '@/features/auth/api/auth'
+import type { Usuario } from '@/features/auth/types/usuario'
 
 interface AuthState {
   usuario: Usuario | null

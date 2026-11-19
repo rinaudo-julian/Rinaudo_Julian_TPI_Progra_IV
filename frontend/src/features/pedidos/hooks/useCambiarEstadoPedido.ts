@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { cambiarEstadoPedido } from '../api/pedidos'
+import { cambiarEstadoPedido } from '@/features/pedidos/api/pedidos'
 
 export function useCambiarEstadoPedido() {
   const queryClient = useQueryClient()

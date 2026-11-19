@@ -1,6 +1,6 @@
 import axios, { isAxiosError } from 'axios'
 
-import { useAuthStore } from '../../store/authStore'
+import { useAuthStore } from '@/store/authStore'
 
 export const MENSAJE_CUENTA_DESACTIVADA = 'Cuenta de usuario desactivada'
 

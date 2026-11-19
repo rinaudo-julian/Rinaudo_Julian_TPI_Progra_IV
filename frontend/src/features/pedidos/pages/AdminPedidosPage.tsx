@@ -1,20 +1,20 @@
 import { useState } from "react";
 
-import { handleApiError } from "../../../shared/api/handleApiError";
-import EstadoError from "../../../shared/components/EstadoError";
-import EstadoVacio from "../../../shared/components/EstadoVacio";
-import Skeleton from "../../../shared/components/Skeleton";
-import Button from "../../../shared/ui/Button";
-import Modal from "../../../shared/ui/Modal";
-import DetallePedido from "../components/DetallePedido";
-import TablaPedidos from "../components/TablaPedidos";
-import { useCambiarEstadoPedido } from "../hooks/useCambiarEstadoPedido";
-import { usePedidos } from "../hooks/usePedidos";
+import { handleApiError } from "@/shared/api/handleApiError";
+import EstadoError from "@/shared/components/EstadoError";
+import EstadoVacio from "@/shared/components/EstadoVacio";
+import Skeleton from "@/shared/components/Skeleton";
+import Button from "@/shared/ui/Button";
+import Modal from "@/shared/ui/Modal";
+import DetallePedido from "@/features/pedidos/components/DetallePedido";
+import TablaPedidos from "@/features/pedidos/components/TablaPedidos";
+import { useCambiarEstadoPedido } from "@/features/pedidos/hooks/useCambiarEstadoPedido";
+import { usePedidos } from "@/features/pedidos/hooks/usePedidos";
 import {
   ESTADOS_PEDIDO,
   type EstadoPedido,
   type Pedido
-} from "../types/pedido";
+} from "@/features/pedidos/types/pedido";
 
 const LIMITE_DEL_PANEL = 100;
 

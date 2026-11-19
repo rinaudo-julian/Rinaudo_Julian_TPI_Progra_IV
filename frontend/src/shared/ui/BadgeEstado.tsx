@@ -1,7 +1,7 @@
 import {
   ESTADOS_PEDIDO,
   type EstadoPedido,
-} from '../../features/pedidos/types/pedido'
+} from '@/features/pedidos/types/pedido'
 
 const ESTILOS_POR_ESTADO: Record<EstadoPedido, string> = {
   [ESTADOS_PEDIDO.PENDIENTE]: 'bg-yellow-100 text-yellow-800',

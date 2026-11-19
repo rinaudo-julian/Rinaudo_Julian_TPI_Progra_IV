@@ -1,5 +1,5 @@
-import { formatearPrecio } from '../../../shared/utils/formatearPrecio'
-import type { ItemCarrito } from '../../../store/cartStore'
+import { formatearPrecio } from '@/shared/utils/formatearPrecio'
+import type { ItemCarrito } from '@/store/cartStore'
 
 interface ResumenCarritoProps {
   items: ItemCarrito[]
