@@ -4,6 +4,7 @@ import type {
   Pedido,
   PedidoCreate,
   PedidosPaginados,
+  ResumenPedidos,
 } from '../types/pedido'
 
 export async function crearPedido(datos: PedidoCreate): Promise<Pedido> {
@@ -22,5 +23,10 @@ export async function obtenerPedidos(
 
 export async function cancelarPedido(id: number): Promise<Pedido> {
   const { data } = await axiosInstance.patch<Pedido>(`/pedidos/${id}/cancelar`)
+  return data
+}
+
+export async function obtenerResumenPedidos(): Promise<ResumenPedidos> {
+  const { data } = await axiosInstance.get<ResumenPedidos>('/pedidos/resumen')
   return data
 }

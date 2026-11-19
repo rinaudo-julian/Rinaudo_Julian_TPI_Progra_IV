@@ -7,11 +7,13 @@ import { ROLES } from '../features/auth/types/usuario'
 import CarritoPage from '../features/pedidos/pages/CarritoPage'
 import CheckoutPage from '../features/pedidos/pages/CheckoutPage'
 import MisPedidosPage from '../features/pedidos/pages/MisPedidosPage'
+import AdminResumenPage from '../features/pedidos/pages/AdminResumenPage'
 import CatalogoPage from '../features/productos/pages/CatalogoPage'
+import AdminLayout from '../shared/layout/AdminLayout'
 import MainLayout from '../shared/layout/MainLayout'
 import ProtectedRoute from './ProtectedRoute'
 
-function AppRouter() {
+const AppRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
@@ -23,6 +25,12 @@ function AppRouter() {
           </Route>
           <Route element={<ProtectedRoute rolesPermitidos={[ROLES.USER]} />}>
             <Route path="/mis-pedidos" element={<MisPedidosPage />} />
+          </Route>
+          <Route element={<ProtectedRoute rolesPermitidos={[ROLES.ADMIN]} />}>
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<Navigate to="/admin/resumen" replace />} />
+              <Route path="resumen" element={<AdminResumenPage />} />
+            </Route>
           </Route>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
