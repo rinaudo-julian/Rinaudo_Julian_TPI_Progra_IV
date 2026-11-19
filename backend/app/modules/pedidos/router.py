@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 
 from app.core.database import session_factory
-from app.core.deps import UsuarioActualDep, require_role
+from app.core.deps import AdminDep, UsuarioActualDep
 from app.modules.pedidos.models import EstadoPedido
 from app.modules.pedidos.schemas import (
     CambioEstado,
@@ -20,8 +20,6 @@ from app.modules.pedidos.service import (
 )
 from app.modules.pedidos.unit_of_work import PedidoUnitOfWork
 from app.modules.productos.service import ProductoNoEncontrado
-from app.modules.usuarios.models import ROL_ADMIN
-from app.modules.usuarios.schemas import UserPublic
 
 router = APIRouter(prefix="/pedidos", tags=["Pedidos"])
 
@@ -31,7 +29,6 @@ def get_pedido_service() -> PedidoService:
 
 
 PedidoServiceDep = Annotated[PedidoService, Depends(get_pedido_service)]
-AdminDep = Annotated[UserPublic, Depends(require_role([ROL_ADMIN]))]
 
 
 def _pedido_no_encontrado() -> HTTPException:

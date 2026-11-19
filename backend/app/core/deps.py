@@ -6,6 +6,7 @@ from fastapi.security import OAuth2PasswordBearer
 
 from app.core.database import session_factory
 from app.core.security import decode_access_token
+from app.modules.usuarios.models import ROL_ADMIN
 from app.modules.usuarios.schemas import UserPublic
 from app.modules.usuarios.unit_of_work import UsuarioUnitOfWork
 
@@ -71,3 +72,6 @@ def require_role(roles_permitidos: list[str]) -> Callable[[UserPublic], UserPubl
         return usuario
 
     return verificar_rol
+
+
+AdminDep = Annotated[UserPublic, Depends(require_role([ROL_ADMIN]))]
