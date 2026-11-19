@@ -21,10 +21,6 @@ const INDICADOR_DE_ORDEN: Record<string, string> = { asc: ' ▲', desc: ' ▼' }
 const columnHelper = createColumnHelper<Categoria>()
 
 const columnas = [
-  columnHelper.accessor('id', {
-    header: 'ID',
-    cell: (info) => `#${info.getValue()}`,
-  }),
   columnHelper.accessor('nombre', { header: 'Nombre' }),
   columnHelper.accessor('descripcion', {
     header: 'Descripción',

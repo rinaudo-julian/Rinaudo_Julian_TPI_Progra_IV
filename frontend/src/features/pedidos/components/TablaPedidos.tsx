@@ -37,10 +37,6 @@ const columnas = [
     header: 'Fecha',
     cell: (info) => formatearFecha(info.getValue()),
   }),
-  columnHelper.accessor('usuario_id', {
-    header: 'Usuario',
-    cell: (info) => `#${info.getValue()}`,
-  }),
   columnHelper.accessor('total', {
     header: 'Total',
     cell: (info) => formatearPrecio(info.getValue()),
