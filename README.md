@@ -67,6 +67,9 @@ La API queda disponible en http://localhost:8000/api/v1 y la documentación inte
 | Variable | Descripción | Ejemplo |
 |---|---|---|
 | `DATABASE_URL` | Conexión a PostgreSQL con el driver `psycopg2` | `postgresql+psycopg2://usuario:password@localhost:5432/foodstore_db` |
+| `SECRET_KEY` | Clave para firmar el JWT, mínimo 32 caracteres | `cambiar-esta-clave-de-al-menos-32-caracteres` |
+| `ALGORITHM` | Algoritmo del JWT | `HS256` |
+| `ACCESS_TOKEN_EXPIRE_MINUTES` | Expiración del token y de la cookie, en minutos | `30` |
 | `FRONTEND_ORIGIN` | Origen permitido en CORS | `http://localhost:5173` |
 
 ### Datos iniciales (seed)
