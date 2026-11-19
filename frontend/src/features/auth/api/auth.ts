@@ -1,5 +1,9 @@
 import { axiosInstance } from '../../../shared/api/axiosInstance'
-import type { MensajeRespuesta, Usuario } from '../types/usuario'
+import type {
+  MensajeRespuesta,
+  Usuario,
+  UsuarioCreate,
+} from '../types/usuario'
 
 export async function iniciarSesion(
   username: string,
@@ -20,5 +24,10 @@ export async function cerrarSesion(): Promise<MensajeRespuesta> {
 
 export async function obtenerUsuarioActual(): Promise<Usuario> {
   const { data } = await axiosInstance.get<Usuario>('/auth/me')
+  return data
+}
+
+export async function registrarUsuario(datos: UsuarioCreate): Promise<Usuario> {
+  const { data } = await axiosInstance.post<Usuario>('/auth/register', datos)
   return data
 }

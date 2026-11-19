@@ -13,3 +13,15 @@ export interface Usuario {
 export interface MensajeRespuesta {
   message: string
 }
+
+export interface UsuarioCreate {
+  username: string
+  full_name: string
+  email: string
+  password: string
+}
+
+export interface EstadoNavegacionLogin {
+  desde?: string
+  registrado?: boolean
+}

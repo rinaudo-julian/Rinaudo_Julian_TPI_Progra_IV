@@ -1,6 +1,6 @@
-import { Navigate, Outlet } from 'react-router-dom'
+import { Navigate, Outlet, useLocation } from 'react-router-dom'
 
-import type { Rol } from '../features/auth/types/usuario'
+import type { EstadoNavegacionLogin, Rol } from '../features/auth/types/usuario'
 import { useAuthStore } from '../store/authStore'
 
 interface ProtectedRouteProps {
@@ -10,6 +10,7 @@ interface ProtectedRouteProps {
 function ProtectedRoute({ rolesPermitidos }: ProtectedRouteProps) {
   const usuario = useAuthStore((estado) => estado.usuario)
   const cargando = useAuthStore((estado) => estado.cargando)
+  const location = useLocation()
 
   if (cargando) {
     return (
@@ -20,7 +21,8 @@ function ProtectedRoute({ rolesPermitidos }: ProtectedRouteProps) {
   }
 
   if (!usuario) {
-    return <Navigate to="/login" replace />
+    const estado: EstadoNavegacionLogin = { desde: location.pathname }
+    return <Navigate to="/login" replace state={estado} />
   }
 
   if (rolesPermitidos && !rolesPermitidos.includes(usuario.role)) {
