@@ -24,3 +24,16 @@ export interface FiltrosProductos {
   search?: string
   categoria_id?: number
 }
+
+export interface ProductoDatos {
+  nombre: string
+  descripcion: string | null
+  precio_base: number
+  imagen_url: string | null
+  categoria_id: number
+}
+
+export interface StockDatos {
+  stock: number
+  disponible: boolean
+}

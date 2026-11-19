@@ -4,6 +4,7 @@ const SECCIONES_DEL_PANEL = [
   { ruta: '/admin/resumen', etiqueta: 'Resumen' },
   { ruta: '/admin/pedidos', etiqueta: 'Pedidos' },
   { ruta: '/admin/categorias', etiqueta: 'Categorías' },
+  { ruta: '/admin/productos', etiqueta: 'Productos' },
 ]
 
 function claseDePestania({ isActive }: { isActive: boolean }): string {

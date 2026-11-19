@@ -10,6 +10,7 @@ import CheckoutPage from '@/features/pedidos/pages/CheckoutPage'
 import MisPedidosPage from '@/features/pedidos/pages/MisPedidosPage'
 import AdminPedidosPage from '@/features/pedidos/pages/AdminPedidosPage'
 import AdminResumenPage from '@/features/pedidos/pages/AdminResumenPage'
+import AdminProductosPage from '@/features/productos/pages/AdminProductosPage'
 import CatalogoPage from '@/features/productos/pages/CatalogoPage'
 import AdminLayout from '@/shared/layout/AdminLayout'
 import MainLayout from '@/shared/layout/MainLayout'
@@ -34,6 +35,7 @@ const AppRouter = () => {
               <Route path="resumen" element={<AdminResumenPage />} />
               <Route path="pedidos" element={<AdminPedidosPage />} />
               <Route path="categorias" element={<AdminCategoriasPage />} />
+              <Route path="productos" element={<AdminProductosPage />} />
             </Route>
           </Route>
           <Route path="/login" element={<LoginPage />} />
