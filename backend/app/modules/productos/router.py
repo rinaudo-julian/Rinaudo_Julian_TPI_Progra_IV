@@ -3,6 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 
 from app.core.database import session_factory
+from app.core.deps import AdminDep
 from app.modules.categorias.service import CategoriaNoEncontrada
 from app.modules.productos.schemas import (
     ProductoCreate,
@@ -53,7 +54,9 @@ def obtener_producto(id: int, service: ProductoServiceDep):
 
 
 @router.post("", response_model=ProductoRead, status_code=status.HTTP_201_CREATED)
-def crear_producto(data: ProductoCreate, service: ProductoServiceDep):
+def crear_producto(
+    data: ProductoCreate, administrador: AdminDep, service: ProductoServiceDep
+):
     try:
         return service.crear(data)
     except CategoriaNoEncontrada as error:
@@ -61,7 +64,12 @@ def crear_producto(data: ProductoCreate, service: ProductoServiceDep):
 
 
 @router.put("/{id}", response_model=ProductoRead)
-def actualizar_producto(id: int, data: ProductoUpdate, service: ProductoServiceDep):
+def actualizar_producto(
+    id: int,
+    data: ProductoUpdate,
+    administrador: AdminDep,
+    service: ProductoServiceDep,
+):
     try:
         return service.actualizar(id, data)
     except ProductoNoEncontrado as error:
@@ -72,7 +80,10 @@ def actualizar_producto(id: int, data: ProductoUpdate, service: ProductoServiceD
 
 @router.patch("/{id}/stock", response_model=ProductoRead)
 def actualizar_stock_producto(
-    id: int, data: ProductoStockUpdate, service: ProductoServiceDep
+    id: int,
+    data: ProductoStockUpdate,
+    administrador: AdminDep,
+    service: ProductoServiceDep,
 ):
     try:
         return service.actualizar_stock(id, data)
@@ -81,7 +92,9 @@ def actualizar_stock_producto(
 
 
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
-def eliminar_producto(id: int, service: ProductoServiceDep) -> None:
+def eliminar_producto(
+    id: int, administrador: AdminDep, service: ProductoServiceDep
+) -> None:
     try:
         service.eliminar(id)
     except ProductoNoEncontrado as error:

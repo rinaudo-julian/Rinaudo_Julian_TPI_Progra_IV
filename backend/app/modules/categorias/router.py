@@ -3,6 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from app.core.database import session_factory
+from app.core.deps import AdminDep
 from app.modules.categorias.schemas import (
     CategoriaCreate,
     CategoriaRead,
@@ -49,7 +50,9 @@ def obtener_categoria(id: int, service: CategoriaServiceDep):
 
 
 @router.post("", response_model=CategoriaRead, status_code=status.HTTP_201_CREATED)
-def crear_categoria(data: CategoriaCreate, service: CategoriaServiceDep):
+def crear_categoria(
+    data: CategoriaCreate, administrador: AdminDep, service: CategoriaServiceDep
+):
     try:
         return service.crear(data)
     except NombreDuplicado as error:
@@ -57,7 +60,12 @@ def crear_categoria(data: CategoriaCreate, service: CategoriaServiceDep):
 
 
 @router.put("/{id}", response_model=CategoriaRead)
-def actualizar_categoria(id: int, data: CategoriaUpdate, service: CategoriaServiceDep):
+def actualizar_categoria(
+    id: int,
+    data: CategoriaUpdate,
+    administrador: AdminDep,
+    service: CategoriaServiceDep,
+):
     try:
         return service.actualizar(id, data)
     except CategoriaNoEncontrada as error:
@@ -67,7 +75,9 @@ def actualizar_categoria(id: int, data: CategoriaUpdate, service: CategoriaServi
 
 
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
-def eliminar_categoria(id: int, service: CategoriaServiceDep) -> None:
+def eliminar_categoria(
+    id: int, administrador: AdminDep, service: CategoriaServiceDep
+) -> None:
     try:
         service.eliminar(id)
     except CategoriaNoEncontrada as error:
