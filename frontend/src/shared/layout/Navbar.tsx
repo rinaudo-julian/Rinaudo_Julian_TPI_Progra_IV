@@ -1,5 +1,6 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 
+import { ROLES } from '../../features/auth/types/usuario'
 import { useAuthStore } from '../../store/authStore'
 import { useCartStore } from '../../store/cartStore'
 import Button from '../ui/Button'
@@ -34,12 +35,12 @@ function Navbar() {
           <NavLink to="/carrito" className={claseDeEnlace}>
             Carrito ({cantidadEnCarrito})
           </NavLink>
-          {usuario && (
+          {usuario?.role === ROLES.USER && (
             <NavLink to="/mis-pedidos" className={claseDeEnlace}>
               Mis pedidos
             </NavLink>
           )}
-          {usuario?.role === 'admin' && (
+          {usuario?.role === ROLES.ADMIN && (
             <NavLink to="/admin/resumen" className={claseDeEnlace}>
               Panel
             </NavLink>

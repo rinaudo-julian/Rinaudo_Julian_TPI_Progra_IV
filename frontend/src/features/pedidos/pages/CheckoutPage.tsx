@@ -6,14 +6,16 @@ import EstadoVacio from '../../../shared/components/EstadoVacio'
 import Button from '../../../shared/ui/Button'
 import Card from '../../../shared/ui/Card'
 import Input from '../../../shared/ui/Input'
+import { useAuthStore } from '../../../store/authStore'
+import { ROLES } from '../../auth/types/usuario'
 import { useCartStore } from '../../../store/cartStore'
 import ResumenCarrito from '../components/ResumenCarrito'
 import { useCrearPedido } from '../hooks/useCrearPedido'
-import type { FormaPago } from '../types/pedido'
+import { FORMAS_PAGO, type FormaPago } from '../types/pedido'
 
 const FORMAS_DE_PAGO: { valor: FormaPago; etiqueta: string }[] = [
-  { valor: 'EFECTIVO', etiqueta: 'Efectivo' },
-  { valor: 'TRANSFERENCIA', etiqueta: 'Transferencia' },
+  { valor: FORMAS_PAGO.EFECTIVO, etiqueta: 'Efectivo' },
+  { valor: FORMAS_PAGO.TRANSFERENCIA, etiqueta: 'Transferencia' },
 ]
 
 interface FormularioCheckout {
@@ -24,7 +26,7 @@ interface FormularioCheckout {
 
 const VALORES_INICIALES: FormularioCheckout = {
   direccion_entrega: '',
-  forma_pago: 'EFECTIVO',
+  forma_pago: FORMAS_PAGO.EFECTIVO,
   notas: '',
 }
 
@@ -39,6 +41,7 @@ function CheckoutPage() {
   const items = useCartStore((estado) => estado.items)
   const total = useCartStore((estado) => estado.total())
   const vaciar = useCartStore((estado) => estado.vaciar)
+  const usuario = useAuthStore((estado) => estado.usuario)
   const crearPedido = useCrearPedido()
   const navigate = useNavigate()
 
@@ -57,7 +60,8 @@ function CheckoutPage() {
         },
         {
           onSuccess: () => {
-            navigate('/mis-pedidos', { replace: true })
+            const destino = usuario?.role === ROLES.ADMIN ? '/admin/pedidos' : '/mis-pedidos'
+            navigate(destino, { replace: true })
             vaciar()
           },
         },
