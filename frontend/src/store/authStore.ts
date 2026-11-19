@@ -7,6 +7,7 @@ import {
   obtenerUsuarioActual,
 } from '@/features/auth/api/auth'
 import type { Usuario } from '@/features/auth/types/usuario'
+import { useCartStore } from '@/store/cartStore'
 
 interface AuthState {
   usuario: Usuario | null
@@ -32,6 +33,7 @@ export const useAuthStore = create<AuthState>()(
           await cerrarSesion()
         } finally {
           set({ usuario: null })
+          useCartStore.getState().vaciar()
         }
       },
       checkSession: async () => {
