@@ -1,5 +1,7 @@
 # Food Store — TPI Programación IV
 
+**Video demostración:** https://drive.google.com/file/d/1AJ2TxPRGMTdxHkM5h3ZOxOar7FuyR_a4/view?usp=sharing
+
 Aplicación web para un negocio de comidas. Los clientes recorren el catálogo, arman un carrito y confirman pedidos; el negocio administra categorías, productos, stock, pedidos y usuarios desde un panel de administración.
 
 El proyecto se divide en dos partes independientes que se comunican por HTTP:
